@@ -31,7 +31,7 @@ It utilizes the following concepts taught in the course:
 - concurrency *(refer to main.py)*
 - type hints/annotation *(used throughout the codebase)*
 - iterators and generators *(refer to main.py; commented in the main function)*
-- context managers *(refer to main.py; main function)*
+- context managers *(refer to main.py; write_data_to_file function)*
 - lambda (anonymous) functions *(refer to main.py; commented in the main function)*
 
 
