@@ -88,7 +88,8 @@ async def get_total_supply(contract: ERC20Contract) -> TotalSupply | None:
 
 
 async def main() -> None:
-    # fetch the supply for those tokens using the JSON RPC API
+    # Fetch the supply of the token defined in contracts.py using a blockchain node
+    # provider's JSON RPC API.
     time_before = perf_counter()
     data = await asyncio.gather(
         *[get_total_supply(contract) for contract in usdt_contracts]
@@ -97,6 +98,28 @@ async def main() -> None:
 
     # Save the data into a CSV file.
     with open("comparator/output.csv", "a") as f:
+
+        """
+        An example of using itertools would be to floor the totaly supply value
+        using a starmap:
+
+        ```
+        from itertools import starmap
+        list(starmap(floor, zip([1.2, 2.3, 3.9])))
+        ```
+
+        We could replace the list with a list of total supply values. However, this
+        would be less efficient, as we would have to traverse the list one more time,
+        compared to just storing it using a cached property (see models.py).
+
+        For the sake of the assignment, here is the equivalent code using a lambda
+        function:
+
+        ```
+        list(starmap(lambda x: floor(x), zip([1.2, 2.3, 3.9])))
+        ```
+        """
+
         for item in data:
             line = f"{datetime.now()},{item.blockchain},{item.floored_value}\n"
             f.write(line)

@@ -16,11 +16,11 @@ stablecoin on different blockchains (Ethereum, Polygon, etc), and compares the d
 
 It uses the following concepts taught in the course:
 
-- [X] concurrency
-- [X] type hints/annotation
-- [ ] iterators and generators
-- [X] context managers
-- [ ] lambda (anonymous) functions
+- concurrency *(see main.py)*
+- type hints/annotation *(used throughout the codebase)*
+- iterators and generators *(see main.py, commented in the main function)*
+- context managers *(see main.py - main function)*
+- lambda (anonymous) functions *(see main.py, commented in the main function)*
 
 
 ### Workflow diagram
