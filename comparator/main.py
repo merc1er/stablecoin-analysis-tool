@@ -5,6 +5,10 @@ from decimal import Decimal
 from time import perf_counter
 from datetime import datetime
 
+import pandas as pd
+from dash import Dash, html, dcc, dash_table
+import plotly.express as px
+
 from contracts import usdt_contracts
 from models import ERC20Contract, TotalSupply
 from network import http_post
@@ -97,8 +101,7 @@ async def main() -> None:
     logger.info(f"Total execution time: {perf_counter() - time_before} seconds.")
 
     # Save the data into a CSV file.
-    with open("comparator/output.csv", "a") as f:
-
+    with open("comparator/output.csv", "w") as f:
         """
         An example of using itertools would be to floor the totaly supply value
         using a starmap:
@@ -120,9 +123,27 @@ async def main() -> None:
         ```
         """
 
+        # Write the header.
+        f.write("datetime,blockchain,total_supply\n")
+
+        now = datetime.now()
+
         for item in data:
-            line = f"{datetime.now()},{item.blockchain},{item.floored_value}\n"
+            line = f"{now},{item.blockchain},{item.floored_value}\n"
             f.write(line)
+
+    # Draw a graph with the data.
+    df = pd.read_csv("comparator/output.csv")
+    app = Dash(__name__)
+
+    app.layout = html.Div(
+        [
+            html.H1(children="Stablecoin analysis tool", style={"textAlign": "center"}),
+            dash_table.DataTable(data=df.to_dict("records"), page_size=10),
+            dcc.Graph(figure=px.histogram(df, x='blockchain', y='total_supply'))
+        ]
+    )
+    app.run_server(debug=True)
 
 
 asyncio.run(main())
