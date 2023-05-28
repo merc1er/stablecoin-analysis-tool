@@ -23,16 +23,16 @@
 ### Description
 
 This Python program fetches the supply of the [USDT](https://coinmarketcap.com/currencies/tether/)
-stablecoin on different blockchains (Ethereum, Polygon, etc) concurrently, and generates
-a table and graph for comparison.
+stablecoin on different blockchains (Ethereum, Polygon, etc.) concurrently, and
+generates a table and graph for comparison.
 
-It uses the following concepts taught in the course:
+It utilizes the following concepts taught in the course:
 
-- concurrency *(see main.py)*
+- concurrency *(refer to main.py)*
 - type hints/annotation *(used throughout the codebase)*
-- iterators and generators *(see main.py, commented in the main function)*
-- context managers *(see main.py - main function)*
-- lambda (anonymous) functions *(see main.py, commented in the main function)*
+- iterators and generators *(refer to main.py; commented in the main function)*
+- context managers *(refer to main.py; main function)*
+- lambda (anonymous) functions *(refer to main.py; commented in the main function)*
 
 
 ### Workflow diagram
