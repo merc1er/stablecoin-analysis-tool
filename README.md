@@ -23,7 +23,8 @@
 ### Description
 
 This Python program fetches the supply of the [USDT](https://coinmarketcap.com/currencies/tether/)
-stablecoin on different blockchains (Ethereum, Polygon, etc), and compares the data.
+stablecoin on different blockchains (Ethereum, Polygon, etc) concurrently, and generates
+a table and graph for comparison.
 
 It uses the following concepts taught in the course:
 
