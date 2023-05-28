@@ -4,9 +4,20 @@
 </div>
 
 
+## Table of contents
+
+- [Overview](#overview)
+  - [Description](#description)
+  - [Workflow diagram](#workflow-diagram)
+- [Run it](#run-it)
+- [Lesson notes](#lesson-note)
+
+
 ## Overview
 
-**Stablecoin market capitalization comparator.**
+**Stablecoin market capitalization comparison by blockchain.**
+
+![Graph showing the market cap of USDT on different blockchains.](gui.png)
 
 
 ### Description
@@ -26,6 +37,23 @@ It uses the following concepts taught in the course:
 ### Workflow diagram
 
 ![Workflow diagram](diagram.svg)
+
+
+## Run it
+
+First, install the dependencies with:
+
+```sh
+pip install -r requirements.txt
+```
+
+Then, run the main script with:
+
+```sh
+python comparator/main.py
+```
+
+Finally, open `http://127.0.0.1:8050/` in your favorite browser.
 
 
 ## Lesson notes
