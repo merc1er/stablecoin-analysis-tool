@@ -3,6 +3,7 @@
 
 # Build files
 README.html
+output.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
