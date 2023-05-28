@@ -5,13 +5,10 @@ from decimal import Decimal
 from time import perf_counter
 from datetime import datetime
 
-import pandas as pd
-from dash import Dash, html, dcc, dash_table
-import plotly.express as px
-
 from contracts import usdt_contracts
 from models import ERC20Contract, TotalSupply
 from network import http_post
+from gui import generate_gui
 
 
 # Logging
@@ -91,37 +88,15 @@ async def get_total_supply(contract: ERC20Contract) -> TotalSupply | None:
     return TotalSupply(blockchain=contract.blockchain, value=total_supply)
 
 
-async def main() -> None:
-    # Fetch the supply of the token defined in contracts.py using a blockchain node
-    # provider's JSON RPC API.
-    time_before = perf_counter()
-    data = await asyncio.gather(
-        *[get_total_supply(contract) for contract in usdt_contracts]
-    )
-    logger.info(f"Total execution time: {perf_counter() - time_before} seconds.")
+def write_data_to_file(data: list[TotalSupply, None]) -> None:
+    """
+    Write the collected data into a CSV file called "output.csv".
 
-    # Save the data into a CSV file.
+    Args:
+        data: A list of TotalSupply objects.
+    """
+
     with open("comparator/output.csv", "w") as f:
-        """
-        An example of using itertools would be to floor the totaly supply value
-        using a starmap:
-
-        ```
-        from itertools import starmap
-        list(starmap(floor, zip([1.2, 2.3, 3.9])))
-        ```
-
-        We could replace the list with a list of total supply values. However, this
-        would be less efficient, as we would have to traverse the list one more time,
-        compared to just storing it using a cached property (see models.py).
-
-        For the sake of the assignment, here is the equivalent code using a lambda
-        function:
-
-        ```
-        list(starmap(lambda x: floor(x), zip([1.2, 2.3, 3.9])))
-        ```
-        """
 
         # Write the header.
         f.write("datetime,blockchain,total_supply\n")
@@ -129,21 +104,50 @@ async def main() -> None:
         now = datetime.now()
 
         for item in data:
+
+            if not item:
+                # Skip if the item is empty (e.g. due to a network error).
+                continue
+
             line = f"{now},{item.blockchain},{item.floored_value}\n"
             f.write(line)
 
-    # Draw a graph with the data.
-    df = pd.read_csv("comparator/output.csv")
-    app = Dash(__name__)
 
-    app.layout = html.Div(
-        [
-            html.H1(children="Stablecoin analysis tool", style={"textAlign": "center"}),
-            dash_table.DataTable(data=df.to_dict("records"), page_size=10),
-            dcc.Graph(figure=px.histogram(df, x="blockchain", y="total_supply")),
-        ]
+async def main() -> None:
+    # Fetch the supply of the token defined in contracts.py using a blockchain node
+    # provider's JSON RPC API.
+
+    time_before = perf_counter()
+
+    """
+    An example of using itertools would be to floor the totaly supply value
+    using a starmap:
+
+    ```
+    from itertools import starmap
+    list(starmap(floor, zip([1.2, 2.3, 3.9])))
+    ```
+
+    We could replace the list with a list of total supply values. However, this
+    would be less efficient, as we would have to traverse the list one more time,
+    compared to just storing it using a cached property (see models.py).
+
+    For the sake of the assignment, here is the equivalent code using a lambda
+    function:
+
+    ```
+    list(starmap(lambda x: floor(x), zip([1.2, 2.3, 3.9])))
+    ```
+    """
+
+    data = await asyncio.gather(
+        *[get_total_supply(contract) for contract in usdt_contracts]
     )
-    app.run_server(debug=True)
+    logger.info(f"Total execution time: {perf_counter() - time_before} seconds.")
+
+    write_data_to_file(data)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
+    generate_gui()
