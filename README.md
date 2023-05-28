@@ -16,11 +16,11 @@ stablecoin on different blockchains (Ethereum, Polygon, etc), and compares the d
 
 It uses the following concepts taught in the course:
 
-- concurrency
-- type hints/annotation
-- iterators and generators
-- context managers
-- lambda (anonymous) functions
+- [X] concurrency
+- [X] type hints/annotation
+- [ ] iterators and generators
+- [X] context managers
+- [ ] lambda (anonymous) functions
 
 
 ### Workflow diagram
@@ -31,20 +31,24 @@ It uses the following concepts taught in the course:
 ## Lesson notes
 
 Dataclasses:
+
 - @dataclass
 - default_factory, init=False
 - setter
 
 
 Functools:
+
 - @cached_property
 - @singledispatch
 
 
 Concurrent programming:
+
 - asyncio.gather()
 
 
 Iterators:
+
 - generators (lazy)
 - yield
