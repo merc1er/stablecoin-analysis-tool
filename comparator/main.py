@@ -140,7 +140,7 @@ async def main() -> None:
         [
             html.H1(children="Stablecoin analysis tool", style={"textAlign": "center"}),
             dash_table.DataTable(data=df.to_dict("records"), page_size=10),
-            dcc.Graph(figure=px.histogram(df, x='blockchain', y='total_supply'))
+            dcc.Graph(figure=px.histogram(df, x="blockchain", y="total_supply")),
         ]
     )
     app.run_server(debug=True)
